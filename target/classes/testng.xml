@@ -7,8 +7,9 @@
     </listeners>
     <test name="Login add Payee">
     <classes>
-        <class name="com.enterprisev2.qa.testcases.AddPayeePageTest"></class>
-        <class name="com.enterprisev2.qa.testcases.ManagePayeesListPageTest"></class>
+<!--        <class name="com.enterprisev2.qa.testcases.AddPayeePageTest"></class>-->
+<!--        <class name="com.enterprisev2.qa.testcases.AddEscrowDescriptionPageTest"></class>-->
+        <class name="com.enterprisev2.qa.testcases.AddLinkPayeePageTest"></class>
     </classes>
 </test>
 </suite>

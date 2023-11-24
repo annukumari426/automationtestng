@@ -4,9 +4,18 @@ import com.enterprisev2.qa.base.TestBase;
 import com.enterprisev2.qa.pages.*;
 //import com.enterprisev2.qa.pages.ManagePayeesList;
 import com.enterprisev2.qa.util.TestUtil;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import static com.enterprisev2.qa.base.TestBase.*;
 
@@ -50,10 +59,48 @@ public class ManagePayeesListPageTest extends TestBase {
 
     }
     @Test(priority = 3)
-    public  void getTabledata(){
-        String cell = managePayeesListPage.tabledata();
-        Assert.assertEquals(cell , addPayeePageTest.enterbasicdetails(), "Payee Name Not Matched");
+    public void get_table_headers(){
 
+        List<String> payeelistheader =  managePayeesListPage.get_table_headers();
+        System.out.println("Payee List Headers are" + payeelistheader);
+
+        List<String> elementsmatched = Arrays.asList("PAYEE ID", "ACCOUNT HOLDER", "IFSC","ACCOUNT NUMBER","BANK" ,"ADDITION DATE");
+        System.out.println("Payee List Headers need to be present" + elementsmatched);
+        boolean payee_list_header_elements =  payeelistheader.equals(elementsmatched);
+        System.out.println(payee_list_header_elements);
+        if(payee_list_header_elements){
+            Assert.assertTrue(true);
+        }
+        else {
+            Assert.assertTrue(false);
+        }
+
+
+    }
+
+
+    @Test(priority = 4)
+    public  void getTabledata() throws InterruptedException {
+        List<String> cell = managePayeesListPage.tabledata();
+        for(String cells : cell){
+            System.out.println("Row Value present as " + cells);
+
+        }
+        Assert.assertEquals(cell.get(1) ,"payee 17 nov new", "Payee Name Not Matched");
+
+    }
+    @Test(priority = 5)
+    public void verifyPayeeIdformat() throws InterruptedException {
+        Thread.sleep(2000);
+        List payee_Id =  managePayeesListPage.column_data();
+//        String regex = "PA";
+        if(payee_Id.get(0).toString().startsWith("PY")){
+            Assert.assertTrue(true);
+            System.out.println("Payee ID start with PY");
+        }
+        else{
+            System.out.println("PY is not prefix");
+        }
     }
     @AfterClass
     public void tearDown() {

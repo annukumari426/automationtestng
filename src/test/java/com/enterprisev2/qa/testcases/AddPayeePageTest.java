@@ -22,69 +22,72 @@ public class AddPayeePageTest extends TestBase {
     TestUtil testUtil = new TestUtil();
     ExcelUtil excelUtil = new ExcelUtil();
     String sheetName = "PayeeData";
-    public AddPayeePageTest(){
+
+    public AddPayeePageTest() {
         super();
     }
+
     @BeforeClass
     public void setUp() throws InterruptedException {
         initalization();
-        testUtil= new TestUtil(); // to user switch frame in future
+        testUtil = new TestUtil(); // to user switch frame in future
         loginPage = new LoginPage();
-        dashboardPage = loginPage.loginvalid(prop.getProperty("username"),prop.getProperty("password"),prop.getProperty("otp"));
-        addPayeePage  = dashboardPage.clickonaddpayeelink();
+        dashboardPage = loginPage.loginvalid(prop.getProperty("username"), prop.getProperty("password"), prop.getProperty("otp"));
+        addPayeePage = dashboardPage.clickonaddpayeelink();
     }
+
     @Test(priority = 1)
-    public void validatesection(){
+    public void validatesection() {
         addPayeePage.validate_elements();
     }
+
     @Test(priority = 2)
-    public  void getelement() {
+    public void getelement() {
         List<WebElement> elements = addPayeePage.getpayeefields();
         System.out.println("number of elements: " + elements.size());
 
-        List<String> elementsmatched = Arrays.asList("Account Holder's Name*","Email*","Mobile Number*","Account Number*","IFSC Code*","Bank Name*","Bank Branch","Cancelled Cheque");
-        boolean payee_elemets =  elements.stream().map(WebElement::getText).
-                anyMatch(elementsmatched::contains);
-        System.out.println(payee_elemets);
-        if(payee_elemets) {
+        List<String> payee_field_need = Arrays.asList("Account Holder's Name*", "Email*", "Mobile Number*", "Account Number*", "IFSC Code*", "Bank Name*", "Bank Branch", "Cancelled Cheque");
+        boolean payee_elements = elements.stream().map(WebElement::getText).
+                anyMatch(payee_field_need::contains);
+        System.out.println(payee_elements);
+        if (payee_elements) {
             Assert.assertTrue(true);
-        }
-        else {
+        } else {
             Assert.assertTrue(false);
         }
 
 
-        }
+    }
+
     @Test(priority = 3)
-    public String enterbasicdetails(){
+    public void enterbasicdetails() {
         int mobile_number = testUtil.generateRandomNumber(10);
         String user = TestUtil.generateRandomName().toString();
-        addPayeePage.enterpayeebasicdetails(user,"user1@gmail.com", String.valueOf(mobile_number));
-        return user;
+        addPayeePage.enterpayeebasicdetails(user, "user1@gmail.com", String.valueOf(mobile_number));
     }
-    @Test(priority =4)
-    public void enterbankdetails(){
+
+    @Test(priority = 4)
+    public void enterbankdetails() {
         int account_number = testUtil.generateRandomNumber(7);
-        addPayeePage.enterpayeebankdetails(String.valueOf(account_number),"ICIC0005433", "ICICI", "Delhi");
+        addPayeePage.enterpayeebankdetails(String.valueOf(account_number), "ICIC0005433", "ICICI", "Delhi");
     }
+
     @Test(priority = 5)
-    public void uploadcheque(){
+    public void uploadcheque() {
         addPayeePage.uploadcancelcheque();
     }
 
     @DataProvider
-    public Object[][] getTestpayeedata(){
+    public Object[][] getTestpayeedata() {
         Object data[][] = ExcelUtil.getTestData(sheetName);
         return data;
 
     }
+
     @Test(priority = 6)
     public void clicksavebutton() throws InterruptedException {
         addPayeePage.clicksavebutton();
         Thread.sleep(2000);
     }
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
-    }
+
 }

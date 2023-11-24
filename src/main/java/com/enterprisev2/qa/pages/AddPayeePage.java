@@ -62,6 +62,8 @@ public class AddPayeePage extends TestBase {
         payeename.sendKeys(name);
         payeeemail.sendKeys(email);
         payeemobile.sendKeys(mobile);
+//        List payeedetails =
+
     }
     public void enterpayeebankdetails(String accountnumber, String ifsc , String bankname, String branch){
         payeeaccountnumber.sendKeys(accountnumber);

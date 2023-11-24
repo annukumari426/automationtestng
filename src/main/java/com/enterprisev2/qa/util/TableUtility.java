@@ -62,7 +62,47 @@ public class TableUtility {
         }
         return columnTexts;
     }
+
+    public static List<String> getRowData(By tableLocator, int rowNumber) {
+        List<String> rowData = new ArrayList<>();
+        WebElement table = driver.findElement(tableLocator);
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+        if (rowNumber >= 0 && rowNumber < rows.size()) {
+            List<WebElement> columns = rows.get(rowNumber).findElements(By.tagName("td"));
+
+            for (WebElement column : columns) {
+                rowData.add(column.getText());
+            }
+        } else {
+            System.out.println("Invalid row number");
+        }
+
+        return rowData;
+    }
+
+    public static List<String> getTableHeaders(By tableLocator) {
+        List<String> headers = new ArrayList<>();
+        WebElement table = driver.findElement(tableLocator);
+        List<WebElement> headerCells = table.findElement(By.tagName("thead"))
+                .findElements(By.tagName("th"));
+
+        for (WebElement headerCell : headerCells) {
+            headers.add(headerCell.getText());
+        }
+
+        return headers;
+    }
+
+    public static String getTableCellValue(By tableLocator, int row, int column) {
+
+        WebElement table = driver.findElement(tableLocator);
+        WebElement tableRow = table.findElements(By.tagName("tr")).get(row);
+        WebElement tableData = tableRow.findElements(By.tagName("td")).get(column);
+        return tableData.getText();
+    }
 }
+
 //    List<WebElement> rows = table.findElements(By.tagName("tr"));
 //
 //    if (row >= 0 && row < rows.size()) {

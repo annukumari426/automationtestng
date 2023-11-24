@@ -28,6 +28,18 @@ public class DashboardPage extends TestBase {
    @FindBy(xpath = "/html/body/div[1]/div/div[1]/div/div[2]/div/div/div[3]/div/div/ul/li[2]")
    public  WebElement addpayee;
 
+   @FindBy(xpath = "//span[text()=\"Escrows\"]")
+   public  WebElement escrows;
+
+   @FindBy(xpath = "/html/body/div[1]/div/div[1]/div/div[2]/div/div/div[2]/div/div/ul/li[1]")
+   public  WebElement escrowlist;
+
+   @FindBy(xpath = "//li[text()=\"Add Escrow\"]")
+    public  WebElement addescrow;
+
+
+
+
 
     public  DashboardPage(){
         PageFactory.initElements(driver, this);  //you can use Login Page instead of this because it refer to this class
@@ -69,6 +81,20 @@ public class DashboardPage extends TestBase {
         return  new AddPayeePage();
 
     }
+    public void clickEscrowdropown(){
+        escrows.click();
+    }
+    public EscrowListPage clickescrowlistdropdownvalue(){
+        clickEscrowdropown();
+        escrowlist.click();
+        return  new EscrowListPage();
+    }
+    public AddEscrowDescriptionPage clickaddescrowdropdownvalue(){
+        clickEscrowdropown();
+        addescrow.click();
+        return new AddEscrowDescriptionPage();
+    }
+
 
 }
 
